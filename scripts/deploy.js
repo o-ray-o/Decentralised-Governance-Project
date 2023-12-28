@@ -1,12 +1,15 @@
 const { ethers } = require("hardhat");
 
 async function main() {
+  const [owner] = await ethers.getSigners(); // Get the first signer as owner
+
   const transactionCount = await owner.getTransactionCount();
+  console.log(transactionCount);
 
   // gets the address of the token before it is deployed
   const futureAddress = ethers.utils.getContractAddress({
     from: owner.address,
-    nonce: transactionCount + 1
+    nonce: transactionCount + 1,
   });
 
   const MyGovernor = await ethers.getContractFactory("MyGovernor");
@@ -25,3 +28,6 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+
+// Governor deployed to 0x7BEFca5Ee98801925CdDd76996dde09ae978fd18
+// Token deployed to 0x6be81f3B64E45b3aCD9b6dFCCEEBBd8666156D35
